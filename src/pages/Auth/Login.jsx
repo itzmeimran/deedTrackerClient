@@ -17,6 +17,7 @@ const Login = () => {
       const response = await axios.post(URL, data);
       console.log(response.data);
       sessionStorage.setItem("token", response.data.token);
+      sessionStorage.setItem("user", JSON.stringify(response.data.user));
       if (response.data.token) {
         navigate("/");
       }

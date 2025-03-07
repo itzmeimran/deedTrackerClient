@@ -4,7 +4,8 @@ import { Autocomplete, Button, TextField } from "@mui/material";
 import { toast } from "react-toastify";
 import { apiConnector } from "../../apis/apiConnector";
 import { useNavigate } from "react-router-dom";
-
+import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
+import AddIcon from "@mui/icons-material/Add";
 const namazOptions = [
   "Fajr",
   "Zuhr",
@@ -19,13 +20,15 @@ const AddPrayer = () => {
   const [date, setDate] = useState(
     () => new Date().toISOString().split("T")[0]
   );
+  const navigate = useNavigate();
+
   const [prayer, setPrayer] = useState(namazOptions[0]); // Default to "Fajr"
   const [prayerDetails, setPrayerDetails] = useState({
     farz: 0,
     sunnat: 0,
     nafl: 0,
     witr: 0,
-    notes: "",
+    notes: "Alhamdullilah Prayed at mosque",
   });
 
   // Handle date change
@@ -59,12 +62,22 @@ const AddPrayer = () => {
       const { data } = await apiConnector("POST", URL, payload);
       toast.success("Prayer added successfully! ✅");
       console.log("Response:", data);
+      if (data.success) {
+        setPrayerDetails({
+          farz: 0,
+          sunnat: 0,
+          nafl: 0,
+          witr: 0,
+          notes: "Alhamdullilah Prayed at mosque",
+        });
+        setPrayer(namazOptions[0]);
+      }
+      //   data.success && navigate("/");
     } catch (error) {
       console.error(error);
       toast.error(error.message || "Error adding prayer");
     }
   }, [date, prayer, prayerDetails]);
-  const navigate = useNavigate();
   return (
     <PageLayout
       sectionHeading="Add Prayer"
@@ -72,6 +85,7 @@ const AddPrayer = () => {
     >
       <div className="flex flex-col gap-4">
         <Button
+          startIcon={<KeyboardBackspaceIcon />}
           onClick={() => navigate("/")}
           variant="var1"
           sx={{ width: "150px" }}
@@ -164,7 +178,18 @@ const AddPrayer = () => {
         />
 
         {/* Submit Button */}
-        <Button variant="contained" color="primary" onClick={addPrayer}>
+        <Button
+          startIcon={<AddIcon />}
+          sx={{
+            width: "150px",
+            textTransform: "none",
+            margin: "0 auto",
+            borderRadius: "0px",
+          }}
+          variant="contained"
+          color="primary"
+          onClick={addPrayer}
+        >
           Add Prayer
         </Button>
       </div>
