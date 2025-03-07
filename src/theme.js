@@ -42,8 +42,9 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           textTransform: "none",
-        }
-      }
+          borderRadius: "0px",
+        },
+      },
     },
   },
 });

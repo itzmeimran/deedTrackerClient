@@ -4,6 +4,7 @@ import React from "react";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form"; // Import react-hook-form
 import { useNavigate } from "react-router-dom";
+import Password from "../../components/Password";
 const Login = () => {
   const {
     register,
@@ -52,21 +53,12 @@ const Login = () => {
         />
 
         {/* Password Field with Validation */}
-        <TextField
-          variant="filled"
+        <Password
+          register={register}
+          errors={errors}
           name="password"
-          type="password"
           label="Password"
-          {...register("password", {
-            required: "Password is required",
-            minLength: {
-              value: 4,
-              message: "Password must be at least 4 characters",
-            },
-          })}
-          error={!!errors.password}
-          helperText={errors.password?.message}
-          required
+          login = {true}
         />
 
         {/* Submit Button */}

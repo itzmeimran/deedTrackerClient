@@ -3,6 +3,7 @@ import axios from "axios";
 import React from "react";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
+import Password from "../../components/Password";
 
 const Register = () => {
   const {
@@ -18,7 +19,8 @@ const Register = () => {
       const URL = process.env.REACT_APP_CONST_AUTH + "register";
       const response = await axios.post(URL, data);
 
-      if (response.data.success) { // Ensure correct response handling
+      if (response.data.success) {
+        // Ensure correct response handling
         toast.success("Registration successful!");
         reset(); // Clear form after success
       }
@@ -32,7 +34,10 @@ const Register = () => {
 
   return (
     <div>
-      <form className="flex flex-col gap-2 mt-3" onSubmit={handleSubmit(handleRegister)}>
+      <form
+        className="flex flex-col gap-2 mt-3"
+        onSubmit={handleSubmit(handleRegister)}
+      >
         {/* First Name */}
         <TextField
           variant="filled"
@@ -43,7 +48,6 @@ const Register = () => {
           fullWidth
           required
         />
-
         {/* Last Name */}
         <TextField
           variant="filled"
@@ -54,7 +58,6 @@ const Register = () => {
           fullWidth
           required
         />
-
         {/* Email */}
         <TextField
           variant="filled"
@@ -72,9 +75,8 @@ const Register = () => {
           fullWidth
           required
         />
-
         {/* Password */}
-        <TextField
+        {/* <TextField
           variant="filled"
           label="Password"
           type="password"
@@ -86,10 +88,23 @@ const Register = () => {
           helperText={errors.password?.message}
           fullWidth
           required
+        /> */}
+        <Password
+          register={register}
+          errors={errors}
+          name="password"
+          label="Password"
+        />
+        {/* Confirm Password */}
+        <Password
+          register={register}
+          errors={errors}
+          name="confirmPassword"
+          label="Confirm Password"
+          passwordValue = {password}
         />
 
-        {/* Confirm Password */}
-        <TextField
+        {/* <TextField
           variant="filled"
           label="Confirm Password"
           type="password"
@@ -101,8 +116,7 @@ const Register = () => {
           helperText={errors.confirmPassword?.message}
           fullWidth
           required
-        />
-
+        /> */}
         {/* Submit Button */}
         <Button type="submit" variant="contained" color="primary">
           Register
